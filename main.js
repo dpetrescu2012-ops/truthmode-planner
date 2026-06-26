@@ -27,8 +27,16 @@ function createWindow() {
   });
 
   const startUrl = `file://${path.join(__dirname, 'src', 'index.html')}`;
-  mainWindow.loadURL(startUrl);
-  mainWindow.show();
+  mainWindow.once('ready-to-show', () => {
+    if (mainWindow) mainWindow.show();
+  });
+
+  mainWindow.loadURL(startUrl).catch((err) => {
+    dialog.showErrorBox(
+      'TRUTHMODE Planner failed to load',
+      err && err.message ? err.message : String(err)
+    );
+  });
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -90,7 +98,12 @@ function createMenu() {
           label: 'About',
           click: () => {
             if (mainWindow) {
-              mainWindow.webContents.send('show-about');
+              dialog.showMessageBox(mainWindow, {
+                type: 'info',
+                title: 'About TRUTHMODE Planner',
+                message: 'TRUTHMODE Planner',
+                detail: `Version ${app.getVersion()}\nExecutive Planner 2026`
+              });
             }
           }
         },
@@ -125,6 +138,8 @@ const UPDATE_CHECK_INTERVAL_MS = 4 * 60 * 60 * 1000; // 4 hours
 let updateCheckTimer = null;
 
 function setupAutoUpdater() {
+  if (!app.isPackaged) return;
+
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = true;
 

@@ -301,6 +301,73 @@ input[type=checkbox]{accent-color:var(--gold);cursor:pointer}
   .rm3,.mb,.plrow{grid-template-columns:1fr}
   .yg{grid-template-columns:1fr 1fr}
 }
+/* RESPONSIVE POLISH */
+html{overflow-x:hidden}
+body{width:100%;line-height:1.45}
+img,svg,canvas,video{max-width:100%;height:auto}
+input,textarea,select,button{max-width:100%;min-width:0}
+.pg{width:100%}
+.pi{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ph,.pf,.mhr{gap:14px}
+.ht,.ftab,.ctab,.ctab2,.ktab,.pipe-tab,.port-tab,.cl-tab,.dj-tab,.book-tab,.skill-tab,.inc-months{min-width:680px}
+.calgrid{min-width:620px}
+.nw-grid,.inc-grid,.grat-items,.pipe-summary{min-width:0}
+.nw-card,.inc-block,.grat-item,.quote-card,.bmc-cell{min-width:0}
+.event-pill,.ep-text{min-width:0}
+@media(max-width:1024px){
+  :root{--sw:210px}
+  #mn{padding:32px 24px 70px}
+  .pg{max-width:100%}
+  .pi{padding:32px}
+  .dk .pi{padding:36px}
+  .bmc-grid{grid-template-columns:1fr 1fr}
+  .bmc-cell:nth-child(3){grid-row:auto}
+  .nw-grid,.inc-grid,.grat-items{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  body{display:block}
+  #sb{width:min(86vw,320px)}
+  #si{max-height:112px;overflow:auto;padding:8px 10px;gap:8px}
+  #si .text{width:100%;text-align:center}
+  #si button{flex:1 1 auto;min-width:74px}
+  #mn{padding:150px 12px 96px}
+  .pg{margin:0 0 34px;border-radius:2px}
+  .pi,.dk .pi{padding:24px 18px}
+  .ph,.pf,.mhr{align-items:flex-start;flex-direction:column}
+  .pf{font-size:8px;line-height:1.5}
+  .ptitle{font-size:28px}
+  .mname{font-size:32px}
+  .mtag{text-align:left}
+  .mtag .yr{font-size:23px}
+  .psub{font-size:12px;max-width:none}
+  .og,.vg,.brow,.mb,.rm3,.plrow,.cr,.nw-grid,.inc-grid,.grat-items,.pipe-summary,.fs,.ks,.pm{grid-template-columns:1fr}
+  .vg{gap:14px}
+  .via{min-height:160px}
+  .qc{padding:34px 20px}
+  .qnum{font-size:74px}
+  .qdr{font-size:21px}
+  .qmbar{flex-wrap:wrap;gap:10px}
+  .calgrid td{height:68px;padding:4px}
+  .daynt{font-size:9px;min-height:30px}
+  .event-pill{padding:4px 6px;font-size:9px}
+  #sched-table{min-width:760px}
+  #surprise-btn,#install-app-btn{bottom:14px;padding:10px 12px;font-size:10px;max-width:46vw;white-space:normal}
+  #surprise-btn{left:12px}
+  #install-app-btn{right:12px}
+}
+@media(max-width:420px){
+  #menu-toggle{top:10px;left:10px;padding:8px 10px}
+  #si{top:54px;left:10px;right:10px;font-size:10px}
+  #mn{padding:142px 8px 98px}
+  .pi,.dk .pi{padding:20px 14px}
+  .ptitle{font-size:24px}
+  .mname{font-size:28px}
+  .qnum{font-size:62px}
+  .ph .logo{font-size:11px}
+  .ph .sl{font-size:9px}
+  .calgrid{min-width:560px}
+  .ht,.ftab,.ctab,.ctab2,.ktab,.pipe-tab,.port-tab,.cl-tab,.dj-tab,.book-tab,.skill-tab,.inc-months{min-width:600px}
+}
 @media print{
   #sb,#si,#surprise-btn,#menu-toggle,#install-app-btn{display:none}
   #mn{margin-left:0}

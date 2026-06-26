@@ -29,6 +29,8 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #si button:hover,#si button:focus{background:rgba(201,160,48,.12);border-color:#fff;outline:none}
 #si .text{font-weight:bold}
 #si .saved-at{font-size:10px;color:#ccc;white-space:nowrap}
+#menu-toggle{display:none;position:fixed;top:14px;left:14px;background:#111;border:1px solid var(--gold);color:var(--gold);padding:9px 12px;border-radius:3px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;z-index:260;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+#menu-toggle:hover,#menu-toggle:focus{background:rgba(201,160,48,.12);border-color:#fff;outline:none}
 #surprise-btn{position:fixed;bottom:22px;left:22px;background:var(--gold);color:#111;border:none;padding:12px 16px;border-radius:999px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;box-shadow:0 18px 40px rgba(0,0,0,.25);z-index:250;transition:transform .2s,box-shadow .2s,filter .2s;animation:surprisePulse 3s ease-in-out infinite 1.5s}
 #surprise-btn:hover{transform:translateY(-1px);box-shadow:0 22px 50px rgba(0,0,0,.3);filter:brightness(1.02)}
 #surprise-panel{position:fixed;inset:0;background:rgba(10,10,10,.82);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:18px;z-index:260}
@@ -45,7 +47,7 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 @keyframes surprisePulse{0%,100%{transform:translateY(0);box-shadow:0 18px 40px rgba(0,0,0,.25)}50%{transform:translateY(-1px);box-shadow:0 26px 62px rgba(0,0,0,.28)}}
 @media(max-width:768px){
   #menu-toggle{display:block}
-  #si{right:110px}
+  #si{top:62px;left:14px;right:14px;justify-content:center}
   #sb{position:fixed;left:-100%;transition:left .25s ease-in-out}
   #sb.open{left:0}
 }
@@ -278,11 +280,78 @@ input[type=checkbox]{accent-color:var(--gold);cursor:pointer}
 .calgrid td.today:not(.hl) .dn{background:var(--gold);color:#fff;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
 
 @media(max-width:768px){
-  #mn{margin-left:0;padding:20px}
+  #mn{margin-left:0;padding:132px 16px 70px}
   .og,.vg{grid-template-columns:1fr}
   .fs,.ks,.pm{grid-template-columns:1fr 1fr}
   .rm3,.mb,.plrow{grid-template-columns:1fr}
   .yg{grid-template-columns:1fr 1fr}
+}
+/* RESPONSIVE POLISH */
+html{overflow-x:hidden}
+body{width:100%;line-height:1.45}
+img,svg,canvas,video{max-width:100%;height:auto}
+input,textarea,select,button{max-width:100%;min-width:0}
+.pg{width:100%}
+.pi{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ph,.pf,.mhr{gap:14px}
+.ht,.ftab,.ctab,.ctab2,.ktab,.pipe-tab,.port-tab,.cl-tab,.dj-tab,.book-tab,.skill-tab,.inc-months{min-width:680px}
+.calgrid{min-width:620px}
+.nw-grid,.inc-grid,.grat-items,.pipe-summary{min-width:0}
+.nw-card,.inc-block,.grat-item,.quote-card,.bmc-cell{min-width:0}
+.event-pill,.ep-text{min-width:0}
+@media(max-width:1024px){
+  :root{--sw:210px}
+  #mn{padding:32px 24px 70px}
+  .pg{max-width:100%}
+  .pi{padding:32px}
+  .dk .pi{padding:36px}
+  .bmc-grid{grid-template-columns:1fr 1fr}
+  .bmc-cell:nth-child(3){grid-row:auto}
+  .nw-grid,.inc-grid,.grat-items{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  body{display:block}
+  #sb{width:min(86vw,320px)}
+  #si{max-height:112px;overflow:auto;padding:8px 10px;gap:8px}
+  #si .text{width:100%;text-align:center}
+  #si button{flex:1 1 auto;min-width:74px}
+  #mn{padding:150px 12px 96px}
+  .pg{margin:0 0 34px;border-radius:2px}
+  .pi,.dk .pi{padding:24px 18px}
+  .ph,.pf,.mhr{align-items:flex-start;flex-direction:column}
+  .pf{font-size:8px;line-height:1.5}
+  .ptitle{font-size:28px}
+  .mname{font-size:32px}
+  .mtag{text-align:left}
+  .mtag .yr{font-size:23px}
+  .psub{font-size:12px;max-width:none}
+  .og,.vg,.brow,.mb,.rm3,.plrow,.cr,.nw-grid,.inc-grid,.grat-items,.pipe-summary,.fs,.ks,.pm{grid-template-columns:1fr}
+  .vg{gap:14px}
+  .via{min-height:160px}
+  .qc{padding:34px 20px}
+  .qnum{font-size:74px}
+  .qdr{font-size:21px}
+  .qmbar{flex-wrap:wrap;gap:10px}
+  .calgrid td{height:68px;padding:4px}
+  .daynt{font-size:9px;min-height:30px}
+  .event-pill{padding:4px 6px;font-size:9px}
+  #sched-table{min-width:760px}
+  #surprise-btn,#install-app-btn{bottom:14px;padding:10px 12px;font-size:10px;max-width:46vw;white-space:normal}
+  #surprise-btn{left:12px}
+  #install-app-btn{right:12px}
+}
+@media(max-width:420px){
+  #menu-toggle{top:10px;left:10px;padding:8px 10px}
+  #si{top:54px;left:10px;right:10px;font-size:10px}
+  #mn{padding:142px 8px 98px}
+  .pi,.dk .pi{padding:20px 14px}
+  .ptitle{font-size:24px}
+  .mname{font-size:28px}
+  .qnum{font-size:62px}
+  .ph .logo{font-size:11px}
+  .ph .sl{font-size:9px}
+  .calgrid{min-width:560px}
+  .ht,.ftab,.ctab,.ctab2,.ktab,.pipe-tab,.port-tab,.cl-tab,.dj-tab,.book-tab,.skill-tab,.inc-months{min-width:600px}
 }
 @media print{
   #sb,#si,#surprise-btn,#menu-toggle{display:none}
@@ -1500,6 +1569,10 @@ const HOLS = {
 };
 
 // mi = 0-based index into MONTHS (Apr=0,May=1,Jun=2,Jul=3,Aug=4,Sep=5,Oct=6,Nov=7,Dec=8,Jan=9,Feb=10,Mar=11)
+// HOLS is keyed by real calendar month (1=Jan...12=Dec); convert fiscal index <-> calendar month here.
+function calMonth(mi){return (mi+3)%12+1;}
+function fiscalIndex(calM){return (calM+8)%12;}
+
 const BDAYS = [
   {mi:2,  day:25, label:'YOUR BIRTHDAY'},
   {mi:2,  day:21, label:"SON'S BIRTHDAY"},
@@ -1557,7 +1630,7 @@ function buildMini(mi){
       const cell=w*7+c;
       if(cell<m.start||day>m.days){h+='<td></td>';continue;}
       const wk=c>=5;
-      const key=(mi+1)+'-'+day;
+      const key=calMonth(mi)+'-'+day;
       const hol=HOLS[key];
       const bdayMini=BDAYS.find(b=>b.mi===mi&&b.day===day);
       const cls=(hol?'hl':wk?'wk':'')+(bdayMini?' bday':'');
@@ -1585,7 +1658,7 @@ function buildCal(mi){
       const cell=w*7+c;
       if(cell<m.start||day>m.days){h+='<td class="em"></td>';continue;}
       const wk=c>=5;
-      const key=(mi+1)+'-'+day;
+      const key=calMonth(mi)+'-'+day;
       const hol=HOLS[key];
       const bday=BDAYS.find(b=>b.mi===mi&&b.day===day);
       let cls=(hol?'hl':wk?'wk':'')+(bday?' bday':'');
@@ -1999,7 +2072,8 @@ document.getElementById('surprise-panel')?.addEventListener('click',e=>{if(e.tar
 function highlightToday(){
   const now=new Date();
   if(now.getFullYear()!==2026)return;
-  const ta=document.querySelector('[data-key="'+MONTHS[now.getMonth()].id+'-dy'+now.getDate()+'"]');
+  const mi=fiscalIndex(now.getMonth()+1);
+  const ta=document.querySelector('[data-key="'+MONTHS[mi].id+'-dy'+now.getDate()+'"]');
   if(ta){const td=ta.closest('td');if(td)td.classList.add('today');}
 }
 
