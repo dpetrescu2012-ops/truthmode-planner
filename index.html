@@ -75,12 +75,17 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #si .si-group button:hover,#si .si-group button:focus{background:rgba(201,160,48,.13);border-color:transparent;transform:none;box-shadow:none}
 #si .si-actions #reset-btn{color:#e7a9a3}
 #si .si-actions #reset-btn:hover,#si .si-actions #reset-btn:focus{background:rgba(214,68,58,.16);color:#ffb9b3}
-#si .si-label{margin-left:auto;padding:0 3px 0 14px;gap:0;transition:border-color .2s,box-shadow .2s}
-#si .si-label:focus-within{border-color:rgba(255,255,255,.6);box-shadow:0 0 0 3px rgba(201,160,48,.12)}
-#tb-evt-text{height:32px!important;background:transparent!important;border:none!important;color:#f7ead0!important;padding:0 12px!important;outline:none!important;width:150px!important;border-radius:0!important}
-#tb-evt-color{width:30px!important;height:30px!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:50%!important;background:#111!important;padding:3px!important;margin:0 6px!important}
-#si .si-label button#tb-evt-add{height:32px;border:none;border-left:1px solid rgba(255,255,255,.12);border-radius:0;background:linear-gradient(135deg,#2f6fe0,#1a73e8);color:#fff;padding:0 16px}
-#si .si-label button#tb-evt-add:hover,#si .si-label button#tb-evt-add:focus{filter:brightness(1.1)}
+#si #label-trigger{margin-left:auto;background:linear-gradient(135deg,#2f6fe0,#1a73e8);border-color:transparent;color:#fff}
+#si #label-trigger:hover,#si #label-trigger:focus,#si #label-trigger.open{filter:brightness(1.08);border-color:transparent}
+#label-popover{display:none;position:absolute;top:calc(100% + 10px);right:20px;width:260px;background:linear-gradient(180deg,#161616 0%,#0c0c0c 100%);border:1px solid rgba(201,160,48,.32);border-radius:14px;padding:16px;box-shadow:0 24px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);flex-direction:column;gap:10px;z-index:241}
+#label-popover.open{display:flex}
+#label-popover .lp-day{font-family:Arial,sans-serif;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:#9a7f3c;text-align:center}
+#label-popover input#tb-evt-text{height:36px;width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,160,48,.3);border-radius:999px;color:#f7ead0;padding:0 14px;outline:none;font-family:Arial,sans-serif;font-size:11px}
+#label-popover input#tb-evt-text:focus{border-color:#fff;box-shadow:0 0 0 3px rgba(201,160,48,.12)}
+#label-popover .lp-row{display:flex;align-items:center;gap:10px}
+#label-popover input#tb-evt-color{width:32px;height:32px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:#111;padding:3px;flex-shrink:0;cursor:pointer}
+#label-popover button#tb-evt-add{flex:1;height:36px;border:none;border-radius:999px;background:linear-gradient(135deg,#2f6fe0,#1a73e8);color:#fff;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+#label-popover button#tb-evt-add:hover,#label-popover button#tb-evt-add:focus{filter:brightness(1.1);outline:none}
 #sb-evt-add:hover,#sb-evt-add:focus{filter:brightness(1.05);transform:translateY(-1px);outline:none}
 #sb-evt-clear:hover,#sb-evt-clear:focus{background:rgba(201,160,48,.1);border-color:#fff;transform:translateY(-1px);outline:none}
 #adv-copy:hover,#adv-copy:focus{filter:brightness(1.05);transform:translateY(-1px);outline:none}
@@ -113,7 +118,8 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
   #menu-toggle{display:flex}
   #si{top:0;left:0;right:0;justify-content:center}
   #si .si-status{border-right:none;padding-right:0;margin-right:0}
-  #si .si-label{margin-left:0}
+  #si #label-trigger{margin-left:0;width:100%;justify-content:center}
+  #label-popover{left:12px;right:12px;width:auto}
   #si .si-nav-select{display:block}
   #sb{display:none}
   #si .si-group{display:none}
@@ -390,9 +396,6 @@ input,textarea,select,button{max-width:100%;min-width:0}
   #si #menu-toggle{justify-content:center;padding:9px 8px;width:100%}
   #si #save-btn{width:100%;justify-content:center}
   #si .si-actions button{flex:1;justify-content:center}
-  #si .si-label{margin-left:0;flex-wrap:wrap;border-radius:16px}
-  #tb-evt-text{flex:1;width:auto!important;height:36px!important;font-size:11px!important}
-  #si .si-label button#tb-evt-add{flex:1 1 100%;border-left:none;border-top:1px solid rgba(255,255,255,.12)}
   #mn{padding:218px 12px 96px}
   .pg{margin:0 0 34px;border-radius:2px}
   .pi,.dk .pi{padding:24px 18px}
@@ -586,10 +589,14 @@ input,textarea,select,button{max-width:100%;min-width:0}
     <input type="file" id="import-file" accept=".json" style="display:none">
     <button id="reset-btn" type="button">Reset</button>
   </div>
-  <div class="si-group si-label">
+  <button id="label-trigger" type="button" aria-haspopup="true" aria-expanded="false">+ Label</button>
+  <div id="label-popover">
+    <div class="lp-day" id="lp-day-indicator">CLICK A DAY TO ADD A LABEL</div>
     <input id="tb-evt-text" placeholder="Label text...">
-    <input id="tb-evt-color" type="color" value="#1a73e8">
-    <button id="tb-evt-add" type="button">Add Label</button>
+    <div class="lp-row">
+      <input id="tb-evt-color" type="color" value="#1a73e8">
+      <button id="tb-evt-add" type="button">Add Label</button>
+    </div>
   </div>
 </div>
 <button id="surprise-btn" type="button">Surprise Me</button>
@@ -1978,7 +1985,10 @@ function setSelectedDay(key,keepEdit){
 
 function updateSelectedIndicator(){
   const sbEl=document.getElementById('sb-day-label');
-  if(sbEl) sbEl.textContent=selectedDayKey?'Selected: '+formatDayLabel(selectedDayKey):'CLICK A DAY TO ADD A LABEL';
+  const lpEl=document.getElementById('lp-day-indicator');
+  const txt=selectedDayKey?'Selected: '+formatDayLabel(selectedDayKey):'CLICK A DAY TO ADD A LABEL';
+  if(sbEl) sbEl.textContent=txt;
+  if(lpEl) lpEl.textContent=txt;
 }
 
 const SURPRISES=[
@@ -2072,10 +2082,35 @@ function initSurprise(){
     saveEventsToStore();saveAll();renderEvents();
     tbTxt.value='';
     clearLabelEditState();
+    setLabelPopover(false);
   }
   if(tbAdd) tbAdd.addEventListener('click',addToolbarLabel);
   if(tbTxt) tbTxt.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addToolbarLabel();}});
 })();
+
+// ── LABEL POPOVER ──────────────────────────────────────────────
+function setLabelPopover(open){
+  const trigger=document.getElementById('label-trigger');
+  const pop=document.getElementById('label-popover');
+  if(!trigger||!pop) return;
+  pop.classList.toggle('open',open);
+  trigger.classList.toggle('open',open);
+  trigger.setAttribute('aria-expanded',open?'true':'false');
+}
+document.getElementById('label-trigger')?.addEventListener('click',e=>{
+  e.stopPropagation();
+  const pop=document.getElementById('label-popover');
+  setLabelPopover(!pop.classList.contains('open'));
+});
+document.addEventListener('click',e=>{
+  const pop=document.getElementById('label-popover');
+  const trigger=document.getElementById('label-trigger');
+  if(!pop||!pop.classList.contains('open')) return;
+  if(pop.contains(e.target)||trigger.contains(e.target)) return;
+  if(e.target.closest('.calgrid')) return;
+  setLabelPopover(false);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') setLabelPopover(false);});
 
 function resetPlanner(){
   if(!confirm('Reset the planner and clear all saved data? This cannot be undone.')) return;
