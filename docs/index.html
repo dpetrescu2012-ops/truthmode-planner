@@ -8,7 +8,7 @@
 <!-- PWA -->
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0e0e0e">
-<meta name="truthmode-build" content="v11">
+<meta name="truthmode-build" content="v12">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="TRUTHMODE">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,9 +18,9 @@
 <link rel="icon" href="./icons/icon-192.png">
 <script>
 (function(){
-  const build='truthmode-v11';
+  const build='truthmode-v12';
   const key='truthmode-active-build';
-  const reloadKey='truthmode-reloaded-v11';
+  const reloadKey='truthmode-reloaded-v12';
   if(localStorage.getItem(key)===build) return;
   localStorage.setItem(key,build);
   const clearCaches='caches' in window
@@ -32,7 +32,7 @@
   Promise.all([clearCaches,updateWorkers]).finally(()=>{
     if(!sessionStorage.getItem(reloadKey)){
       sessionStorage.setItem(reloadKey,'1');
-      location.replace('./index.html?fresh=v11');
+      location.replace('./index.html?fresh=v12');
     }
   });
 })();
@@ -111,7 +111,8 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
   #si{top:0;left:0;right:0;justify-content:center}
   #si .si-status{border-right:none;padding-right:0;margin-right:0}
   #si .si-label{margin-left:0}
-  #sb{position:fixed;left:-100%;transition:left .25s ease-in-out}
+  #sb{position:fixed;top:218px;left:-100%;height:calc(100vh - 218px);transition:left .25s ease-in-out;z-index:230}
+  #sb .hd{display:none}
   #sb.open{left:0}
 }
 
@@ -415,6 +416,7 @@ input,textarea,select,button{max-width:100%;min-width:0}
   #menu-toggle{top:10px;left:10px;padding:8px 10px}
   #si #menu-toggle{padding:9px 8px}
   #si{top:0;left:0;right:0;font-size:10px}
+  #sb{top:214px;height:calc(100vh - 214px)}
   #mn{padding:214px 8px 98px}
   .pi,.dk .pi{padding:20px 14px}
   .ptitle{font-size:24px}
@@ -2577,7 +2579,7 @@ if('serviceWorker' in navigator){
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
     if(swReloading)return;swReloading=true;location.reload();
   });
-  navigator.serviceWorker.register('./service-worker.js?v=11',{updateViaCache:'none'}).then(reg=>{
+  navigator.serviceWorker.register('./service-worker.js?v=12',{updateViaCache:'none'}).then(reg=>{
     document.addEventListener('visibilitychange',()=>{
       if(document.visibilityState==='visible')reg.update().catch(()=>{});
     });
