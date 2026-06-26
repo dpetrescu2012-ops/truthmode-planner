@@ -55,6 +55,7 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #sb a{margin:2px 10px 2px 0;border-radius:0 999px 999px 0}
 #sb a:hover,#sb a.on{color:#f4df9b;border-left-color:var(--gold);background:linear-gradient(90deg,rgba(201,160,48,.18),rgba(201,160,48,.04));box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
 #menu-toggle{display:none;position:fixed;top:14px;left:14px;background:rgba(14,14,14,.92);border:1px solid rgba(201,160,48,.62);color:#f4df9b;padding:10px 13px;border-radius:999px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;z-index:260;box-shadow:0 16px 42px rgba(0,0,0,.36);backdrop-filter:blur(10px);align-items:center;gap:9px}
+#si #menu-toggle{position:static;z-index:auto;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);backdrop-filter:none}
 #menu-toggle .mi{display:flex;flex-direction:column;gap:3px;width:16px}
 #menu-toggle .mi span{display:block;height:2px;background:var(--gold);border-radius:2px}
 #menu-toggle:hover,#menu-toggle:focus{background:#151515;border-color:#fff;outline:none;transform:translateY(-1px)}
@@ -346,10 +347,16 @@ input,textarea,select,button{max-width:100%;min-width:0}
   #sb{width:min(86vw,320px)}
   #si{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));max-height:none;overflow:visible;padding:10px;gap:8px;border-radius:18px}
   #si .text,#si .saved-at{grid-column:1/-1;text-align:center}
+  #si .si-divider{display:none}
   #si button{width:100%;padding:9px 8px;font-size:9px;min-width:0}
-  #tb-evt-text{grid-column:1/3;width:100%!important;height:36px!important;font-size:11px!important}
+  #si #menu-toggle{grid-column:1/2;justify-content:center;padding:9px 8px}
+  #save-btn{grid-column:2/3}
+  #export-btn{grid-column:3/4}
+  #import-btn{grid-column:4/5}
+  #reset-btn{grid-column:1/2}
+  #tb-evt-text{grid-column:2/4;width:100%!important;height:36px!important;font-size:11px!important}
   #tb-evt-color{justify-self:center}
-  #tb-evt-add{grid-column:4/5}
+  #tb-evt-add{grid-column:1/-1}
   #mn{padding:218px 12px 96px}
   .pg{margin:0 0 34px;border-radius:2px}
   .pi,.dk .pi{padding:24px 18px}
@@ -377,6 +384,7 @@ input,textarea,select,button{max-width:100%;min-width:0}
 }
 @media(max-width:420px){
   #menu-toggle{top:10px;left:10px;padding:8px 10px}
+  #si #menu-toggle{padding:9px 8px}
   #si{top:54px;left:10px;right:10px;font-size:10px}
   #mn{padding:214px 8px 98px}
   .pi,.dk .pi{padding:20px 14px}
@@ -527,6 +535,7 @@ input,textarea,select,button{max-width:100%;min-width:0}
 <body>
 
 <div id="si">
+  <button id="menu-toggle" type="button" aria-label="Toggle navigation"><span class="mi"><span></span><span></span><span></span></span><span>Menu</span></button>
   <span class="text">✓ Saved</span>
   <span id="saved-at" class="saved-at"></span>
   <button id="save-btn" type="button">Save</button>
@@ -534,12 +543,11 @@ input,textarea,select,button{max-width:100%;min-width:0}
   <button id="import-btn" type="button">Import</button>
   <input type="file" id="import-file" accept=".json" style="display:none">
   <button id="reset-btn" type="button">Reset</button>
-  <span style="width:1px;height:20px;background:#333;margin:0 4px;flex-shrink:0"></span>
+  <span class="si-divider" style="width:1px;height:20px;background:#333;margin:0 4px;flex-shrink:0"></span>
   <input id="tb-evt-text" placeholder="Label text..." style="background:#1a1a1a;border:none;border-bottom:1px solid #c9a030;color:#ddd;font-family:Arial,sans-serif;font-size:11px;letter-spacing:.5px;padding:4px 6px;outline:none;width:130px;border-radius:0;flex-shrink:0">
   <input id="tb-evt-color" type="color" value="#1a73e8" style="width:28px;height:28px;border:none;background:transparent;cursor:pointer;padding:0;flex-shrink:0">
   <button id="tb-evt-add" type="button">Add Label</button>
 </div>
-<button id="menu-toggle" type="button" aria-label="Toggle navigation"><span class="mi"><span></span><span></span><span></span></span><span>Menu</span></button>
 <button id="surprise-btn" type="button">Surprise Me</button>
 <button id="install-app-btn" type="button">Install App</button>
 <div id="surprise-panel">
