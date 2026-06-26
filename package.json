@@ -1,0 +1,73 @@
+{
+  "name": "truthmode-planner",
+  "version": "1.0.0",
+  "description": "TRUTHMODE Executive Planner 2026 - Desktop Application",
+  "main": "main.js",
+  "homepage": "./",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "TRUTHMODE",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^42.4.0",
+    "electron-builder": "^26.15.3",
+    "electron-is-dev": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.truthmode.planner",
+    "productName": "TRUTHMODE Planner",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "assets/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TRUTHMODE Planner"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}.exe"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "dpetrescu2012-ops",
+      "repo": "truthmode-planner"
+    }
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
+}
