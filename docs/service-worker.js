@@ -1,4 +1,4 @@
-const CACHE = 'truthmode-planner-v15';
+const CACHE = 'truthmode-planner-v16';
 const APP_SHELL = [
   './index.html',
   './manifest.webmanifest',
