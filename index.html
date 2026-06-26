@@ -8,7 +8,7 @@
 <!-- PWA -->
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0e0e0e">
-<meta name="truthmode-build" content="v12">
+<meta name="truthmode-build" content="v13">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="TRUTHMODE">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,9 +18,9 @@
 <link rel="icon" href="./icons/icon-192.png">
 <script>
 (function(){
-  const build='truthmode-v12';
+  const build='truthmode-v13';
   const key='truthmode-active-build';
-  const reloadKey='truthmode-reloaded-v12';
+  const reloadKey='truthmode-reloaded-v13';
   if(localStorage.getItem(key)===build) return;
   localStorage.setItem(key,build);
   const clearCaches='caches' in window
@@ -32,7 +32,7 @@
   Promise.all([clearCaches,updateWorkers]).finally(()=>{
     if(!sessionStorage.getItem(reloadKey)){
       sessionStorage.setItem(reloadKey,'1');
-      location.replace('./index.html?fresh=v12');
+      location.replace('./index.html?fresh=v13');
     }
   });
 })();
@@ -78,6 +78,7 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #tb-evt-color{width:30px!important;height:30px!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:50%!important;background:#111!important;padding:3px!important;margin:0 6px!important}
 #si .si-label button#tb-evt-add{height:32px;border:none;border-left:1px solid rgba(255,255,255,.12);border-radius:0;background:linear-gradient(135deg,#2f6fe0,#1a73e8);color:#fff;padding:0 16px}
 #si .si-label button#tb-evt-add:hover,#si .si-label button#tb-evt-add:focus{filter:brightness(1.1)}
+.top-menu-panel{display:none}
 #sb-evt-add:hover,#sb-evt-add:focus{filter:brightness(1.05);transform:translateY(-1px);outline:none}
 #sb-evt-clear:hover,#sb-evt-clear:focus{background:rgba(201,160,48,.1);border-color:#fff;transform:translateY(-1px);outline:none}
 #adv-copy:hover,#adv-copy:focus{filter:brightness(1.05);transform:translateY(-1px);outline:none}
@@ -111,9 +112,12 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
   #si{top:0;left:0;right:0;justify-content:center}
   #si .si-status{border-right:none;padding-right:0;margin-right:0}
   #si .si-label{margin-left:0}
-  #sb{position:fixed;top:218px;left:-100%;height:calc(100vh - 218px);transition:left .25s ease-in-out;z-index:230}
-  #sb .hd{display:none}
-  #sb.open{left:0}
+  #sb{display:none}
+  #si.menu-open{max-height:100vh;overflow-y:auto}
+  #si.menu-open .top-menu-panel{display:grid;grid-template-columns:1fr 1fr;gap:7px;border-top:1px solid rgba(201,160,48,.22);padding-top:10px}
+  .top-menu-panel a{display:block;text-decoration:none;color:#ddd;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 11px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+  .top-menu-panel a.on,.top-menu-panel a:hover,.top-menu-panel a:focus{color:#111;background:var(--gold);border-color:var(--gold);outline:none}
+  .top-menu-heading{grid-column:1/-1;color:#a4832c;font-family:Arial,sans-serif;font-size:9px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;padding:7px 2px 0}
 }
 
 /* PAGE */
@@ -416,7 +420,6 @@ input,textarea,select,button{max-width:100%;min-width:0}
   #menu-toggle{top:10px;left:10px;padding:8px 10px}
   #si #menu-toggle{padding:9px 8px}
   #si{top:0;left:0;right:0;font-size:10px}
-  #sb{top:214px;height:calc(100vh - 214px)}
   #mn{padding:214px 8px 98px}
   .pi,.dk .pi{padding:20px 14px}
   .ptitle{font-size:24px}
@@ -583,6 +586,7 @@ input,textarea,select,button{max-width:100%;min-width:0}
     <input id="tb-evt-color" type="color" value="#1a73e8">
     <button id="tb-evt-add" type="button">Add Label</button>
   </div>
+  <div id="top-menu-panel" class="top-menu-panel" aria-label="Planner navigation"></div>
 </div>
 <button id="surprise-btn" type="button">Surprise Me</button>
 <button id="install-app-btn" type="button">Install App</button>
@@ -2086,18 +2090,20 @@ function resetPlanner(){
 
 function hideMenuOnMobile(){
   const sidebar=document.getElementById('sb');
+  const menuBar=document.getElementById('si');
   if(sidebar && sidebar.classList.contains('open')){
     sidebar.classList.remove('open');
-    if(menuToggle) menuToggle.classList.remove('on');
   }
+  if(menuBar) menuBar.classList.remove('menu-open');
+  if(menuToggle) menuToggle.classList.remove('on');
 }
 
 if(saveBtn) saveBtn.addEventListener('click', saveAll);
 if(resetBtn) resetBtn.addEventListener('click',resetPlanner);
 if(menuToggle) menuToggle.addEventListener('click',()=>{
-  const sidebar=document.getElementById('sb');
-  if(!sidebar) return;
-  sidebar.classList.toggle('open');
+  const menuBar=document.getElementById('si');
+  if(!menuBar) return;
+  menuBar.classList.toggle('menu-open');
   menuToggle.classList.toggle('on');
 });
 
@@ -2158,7 +2164,27 @@ function highlightToday(){
 }
 
 // ── NAVIGATION ───────────────────────────────────────────────
-const links=document.querySelectorAll('#sb a');
+function buildTopMenu(){
+  const panel=document.getElementById('top-menu-panel');
+  const sidebar=document.getElementById('sb');
+  if(!panel||!sidebar) return;
+  panel.innerHTML='';
+  sidebar.querySelectorAll('.ng,a').forEach(item=>{
+    if(item.matches('.ng')){
+      const heading=document.createElement('div');
+      heading.className='top-menu-heading';
+      heading.textContent=item.textContent;
+      panel.appendChild(heading);
+      return;
+    }
+    const link=document.createElement('a');
+    link.href=item.getAttribute('href');
+    link.textContent=item.textContent;
+    panel.appendChild(link);
+  });
+}
+buildTopMenu();
+const links=document.querySelectorAll('#sb a,#top-menu-panel a');
 links.forEach(a=>{
   a.addEventListener('click',e=>{
     e.preventDefault();
