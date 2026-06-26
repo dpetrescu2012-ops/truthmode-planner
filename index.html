@@ -40,26 +40,29 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #si button:hover,#si button:focus{background:rgba(201,160,48,.12);border-color:#fff;outline:none}
 #si .text{font-weight:bold}
 #si .saved-at{font-size:10px;color:#ccc;white-space:nowrap}
-#menu-toggle{display:none;position:fixed;top:14px;left:14px;background:#111;border:1px solid var(--gold);color:var(--gold);padding:9px 12px;border-radius:3px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;z-index:260;box-shadow:0 12px 30px rgba(0,0,0,.25)}
-#menu-toggle:hover,#menu-toggle:focus{background:rgba(201,160,48,.12);border-color:#fff;outline:none}
+#menu-toggle{display:none;position:fixed;top:14px;left:14px;background:rgba(14,14,14,.92);border:1px solid rgba(201,160,48,.62);color:#f4df9b;padding:10px 13px;border-radius:999px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;z-index:260;box-shadow:0 16px 42px rgba(0,0,0,.36);backdrop-filter:blur(10px);align-items:center;gap:9px}
+#menu-toggle .mi{display:flex;flex-direction:column;gap:3px;width:16px}
+#menu-toggle .mi span{display:block;height:2px;background:var(--gold);border-radius:2px}
+#menu-toggle:hover,#menu-toggle:focus{background:#151515;border-color:#fff;outline:none;transform:translateY(-1px)}
 #install-app-btn{display:none;position:fixed;bottom:22px;right:22px;background:#111;color:var(--gold);border:1px solid var(--gold);padding:12px 16px;border-radius:999px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;box-shadow:0 18px 40px rgba(0,0,0,.25);z-index:251}
 #install-app-btn:hover,#install-app-btn:focus{background:rgba(201,160,48,.12);border-color:#fff;outline:none}
-#surprise-btn{position:fixed;bottom:22px;left:22px;background:var(--gold);color:#111;border:none;padding:12px 16px;border-radius:999px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;box-shadow:0 18px 40px rgba(0,0,0,.25);z-index:250;transition:transform .2s,box-shadow .2s,filter .2s;animation:surprisePulse 3s ease-in-out infinite 1.5s}
-#surprise-btn:hover{transform:translateY(-1px);box-shadow:0 22px 50px rgba(0,0,0,.3);filter:brightness(1.02)}
-#surprise-panel{position:fixed;inset:0;background:rgba(10,10,10,.82);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:18px;z-index:260}
+#surprise-btn{position:fixed;bottom:22px;left:22px;background:linear-gradient(135deg,#f0d27a 0%,#c9a030 52%,#a97b15 100%);color:#111;border:1px solid rgba(255,255,255,.25);padding:13px 17px;border-radius:999px;font-family:Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;cursor:pointer;box-shadow:0 18px 44px rgba(0,0,0,.34),0 0 0 4px rgba(201,160,48,.08);z-index:250;transition:transform .2s,box-shadow .2s,filter .2s;animation:surprisePulse 3.2s ease-in-out infinite 1.5s}
+#surprise-btn:hover,#surprise-btn:focus{transform:translateY(-2px);box-shadow:0 24px 58px rgba(0,0,0,.38),0 0 0 5px rgba(201,160,48,.13);filter:brightness(1.03);outline:none}
+#surprise-panel{position:fixed;inset:0;background:radial-gradient(circle at 50% 20%,rgba(201,160,48,.16),transparent 34%),rgba(6,6,6,.86);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:18px;z-index:260}
 #surprise-panel.active{display:flex}
-#surprise-card{max-width:520px;width:100%;background:#111;border:1px solid rgba(201,160,48,.3);border-radius:18px;overflow:hidden;box-shadow:0 16px 56px rgba(0,0,0,.45);transform:translateY(34px) scale(.94);opacity:0;animation:surpriseIn .35s ease-out forwards}
-#surprise-card .sp-header{background:linear-gradient(135deg,rgba(201,160,48,.96),rgba(229,204,141,.95));padding:18px 22px;color:#111;font-family:Arial,sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:bold}
-#surprise-card .sp-body{padding:26px 24px 18px;color:#eee;font-family:Georgia,serif;font-size:18px;line-height:1.65;min-height:146px;display:flex;align-items:center;justify-content:center;text-align:center}
-#surprise-card .sp-actions{display:flex;gap:12px;padding:18px 22px 22px;background:#0f0f0f}
-#surprise-card button{flex:1;border:none;padding:12px 0;border-radius:8px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;transition:background .2s,transform .2s}
+#surprise-card{max-width:560px;width:100%;background:linear-gradient(180deg,#151515 0%,#0c0c0c 100%);border:1px solid rgba(201,160,48,.38);border-radius:14px;overflow:hidden;box-shadow:0 26px 82px rgba(0,0,0,.62);transform:translateY(34px) scale(.94);opacity:0;animation:surpriseIn .35s ease-out forwards}
+#surprise-card .sp-header{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#101010;border-bottom:1px solid rgba(201,160,48,.2);padding:18px 22px;color:#f4df9b;font-family:Arial,sans-serif;font-size:11px;letter-spacing:2.2px;text-transform:uppercase;font-weight:bold}
+#surprise-card .sp-mark{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--gold);color:#111;font-family:Georgia,serif;font-size:24px;line-height:1}
+#surprise-card .sp-body{padding:34px 28px 26px;color:#f2ead7;font-family:Georgia,serif;font-size:22px;line-height:1.62;min-height:168px;display:flex;align-items:center;justify-content:center;text-align:center}
+#surprise-card .sp-actions{display:flex;gap:12px;padding:18px 22px 22px;background:#0a0a0a;border-top:1px solid rgba(255,255,255,.06)}
+#surprise-card button{flex:1;border:none;padding:13px 0;border-radius:999px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .2s,border-color .2s}
 #surprise-card button#sp-new{background:var(--gold);color:#111}
-#surprise-card button#sp-close{background:#1e1e1e;color:#eee;border:1px solid rgba(255,255,255,.08)}
+#surprise-card button#sp-close{background:#171717;color:#eee;border:1px solid rgba(255,255,255,.1)}
 #surprise-card button:hover{opacity:.95;transform:translateY(-1px)}
 @keyframes surpriseIn{from{transform:translateY(34px) scale(.94);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
 @keyframes surprisePulse{0%,100%{transform:translateY(0);box-shadow:0 18px 40px rgba(0,0,0,.25)}50%{transform:translateY(-1px);box-shadow:0 26px 62px rgba(0,0,0,.28)}}
 @media(max-width:768px){
-  #menu-toggle{display:block}
+  #menu-toggle{display:flex}
   #si{top:62px;left:14px;right:14px;justify-content:center}
   #sb{position:fixed;left:-100%;transition:left .25s ease-in-out}
   #sb.open{left:0}
@@ -351,7 +354,7 @@ input,textarea,select,button{max-width:100%;min-width:0}
   .daynt{font-size:9px;min-height:30px}
   .event-pill{padding:4px 6px;font-size:9px}
   #sched-table{min-width:760px}
-  #surprise-btn,#install-app-btn{bottom:14px;padding:10px 12px;font-size:10px;max-width:46vw;white-space:normal}
+  #surprise-btn,#install-app-btn{bottom:14px;padding:11px 13px;font-size:10px;max-width:46vw;white-space:normal}
   #surprise-btn{left:12px}
   #install-app-btn{right:12px}
 }
@@ -519,12 +522,12 @@ input,textarea,select,button{max-width:100%;min-width:0}
   <input id="tb-evt-color" type="color" value="#1a73e8" style="width:28px;height:28px;border:none;background:transparent;cursor:pointer;padding:0;flex-shrink:0">
   <button id="tb-evt-add" type="button">Add Label</button>
 </div>
-<button id="menu-toggle" type="button" aria-label="Toggle navigation">☰ Menu</button>
-<button id="surprise-btn" type="button">TruthMode Surprise</button>
+<button id="menu-toggle" type="button" aria-label="Toggle navigation"><span class="mi"><span></span><span></span><span></span></span><span>Menu</span></button>
+<button id="surprise-btn" type="button">Surprise Me</button>
 <button id="install-app-btn" type="button">Install App</button>
 <div id="surprise-panel">
   <div id="surprise-card">
-    <div class="sp-header">TruthMode Insight</div>
+    <div class="sp-header"><span>TruthMode Insight</span><span class="sp-mark">“</span></div>
     <div id="sp-text" class="sp-body">Tap the button again for a fresh surprise.</div>
     <div class="sp-actions">
       <button id="sp-new" type="button">New surprise</button>
