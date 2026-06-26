@@ -29,6 +29,9 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #si .si-status{display:flex;align-items:center;gap:8px;padding-right:12px;border-right:1px solid rgba(255,255,255,.08);margin-right:2px}
 #si .text{font-weight:900;color:#f4df9b;text-transform:uppercase;font-size:10px;letter-spacing:1.4px}
 #si .saved-at{font-size:9.5px;color:#8c8c8c;white-space:nowrap}
+.si-nav-select{height:34px;background:rgba(255,255,255,.055);border:1px solid rgba(201,160,48,.34);color:#f4df9b;border-radius:999px;padding:0 34px 0 13px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;outline:none;max-width:220px}
+.si-nav-select:focus{border-color:#fff;box-shadow:0 0 0 3px rgba(201,160,48,.12)}
+.si-nav-select option{background:#111;color:#f4df9b}
 #si button{height:34px;background:rgba(255,255,255,.035);border:1px solid rgba(201,160,48,.55);color:#f4df9b;padding:0 16px;border-radius:999px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;transition:background .2s,border-color .2s,transform .2s,box-shadow .2s;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
 #si button:hover,#si button:focus{background:rgba(201,160,48,.16);border-color:#fff;outline:none;transform:translateY(-1px);box-shadow:0 10px 22px rgba(0,0,0,.26),0 0 0 3px rgba(201,160,48,.1)}
 #si #save-btn{background:linear-gradient(135deg,#f3d98a 0%,#c9a030 50%,#9c7314 100%);color:#181208;border-color:transparent;font-weight:900;box-shadow:0 10px 26px rgba(0,0,0,.32),0 0 0 3px rgba(201,160,48,.12)}
@@ -347,6 +350,7 @@ input,textarea,select,button{max-width:100%;min-width:0}
   #sb{width:min(86vw,320px)}
   #si{display:flex;flex-direction:column;align-items:stretch;max-height:none;overflow:visible;padding:10px;gap:8px;border-radius:0}
   #si .si-status{justify-content:center;border-right:none;padding-right:0;margin-right:0}
+  #si .si-nav-select{width:100%;max-width:none}
   #si button{padding:9px 8px;font-size:9px;min-width:0}
   #si #menu-toggle{justify-content:center;padding:9px 8px;width:100%}
   #si #save-btn{width:100%;justify-content:center}
@@ -533,6 +537,9 @@ input,textarea,select,button{max-width:100%;min-width:0}
 
 <div id="si">
   <button id="menu-toggle" type="button" aria-label="Toggle navigation"><span class="mi"><span></span><span></span><span></span></span><span>Menu</span></button>
+  <select id="top-nav-select" class="si-nav-select" aria-label="Jump to planner page">
+    <option value="">Jump to page</option>
+  </select>
   <div class="si-status">
     <span class="text">✓ Saved</span>
     <span id="saved-at" class="saved-at"></span>
@@ -2128,9 +2135,11 @@ function highlightToday(){
 // ── NAVIGATION ───────────────────────────────────────────────
 function buildTopMenu(){
   const panel=document.getElementById('top-menu-panel');
+  const select=document.getElementById('top-nav-select');
   const sidebar=document.getElementById('sb');
   if(!panel||!sidebar) return;
   panel.innerHTML='';
+  if(select) select.innerHTML='<option value="">Jump to page</option>';
   sidebar.querySelectorAll('.ng,a').forEach(item=>{
     if(item.matches('.ng')){
       const heading=document.createElement('div');
@@ -2143,6 +2152,18 @@ function buildTopMenu(){
     link.href=item.getAttribute('href');
     link.textContent=item.textContent;
     panel.appendChild(link);
+    if(select){
+      const option=document.createElement('option');
+      option.value=item.getAttribute('href');
+      option.textContent=item.textContent;
+      select.appendChild(option);
+    }
+  });
+  if(select) select.addEventListener('change',()=>{
+    if(!select.value) return;
+    const t=document.querySelector(select.value);
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    hideMenuOnMobile();
   });
 }
 buildTopMenu();
@@ -2160,6 +2181,8 @@ function updateNav(){
   let cur='';
   document.querySelectorAll('.pg[id]').forEach(s=>{if(s.offsetTop<=y)cur=s.id;});
   links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+  const select=document.getElementById('top-nav-select');
+  if(select && cur) select.value='#'+cur;
 }
 window.addEventListener('scroll',updateNav,{passive:true});
 
