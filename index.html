@@ -62,7 +62,7 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #si .si-status{display:flex;align-items:center;gap:8px;padding-right:12px;border-right:1px solid rgba(255,255,255,.08);margin-right:2px}
 #si .text{font-weight:900;color:#f4df9b;text-transform:uppercase;font-size:10px;letter-spacing:1.4px}
 #si .saved-at{font-size:9.5px;color:#8c8c8c;white-space:nowrap}
-.si-nav-select{height:34px;background:rgba(255,255,255,.055);border:1px solid rgba(201,160,48,.34);color:#f4df9b;border-radius:999px;padding:0 34px 0 13px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;outline:none;max-width:220px}
+.si-nav-select{display:none;height:34px;background:rgba(255,255,255,.055);border:1px solid rgba(201,160,48,.34);color:#f4df9b;border-radius:999px;padding:0 34px 0 13px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;outline:none;max-width:220px}
 .si-nav-select:focus{border-color:#fff;box-shadow:0 0 0 3px rgba(201,160,48,.12)}
 .si-nav-select option{background:#111;color:#f4df9b}
 #si button{height:34px;background:rgba(255,255,255,.035);border:1px solid rgba(201,160,48,.55);color:#f4df9b;padding:0 16px;border-radius:999px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;transition:background .2s,border-color .2s,transform .2s,box-shadow .2s;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
@@ -81,7 +81,6 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #tb-evt-color{width:30px!important;height:30px!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:50%!important;background:#111!important;padding:3px!important;margin:0 6px!important}
 #si .si-label button#tb-evt-add{height:32px;border:none;border-left:1px solid rgba(255,255,255,.12);border-radius:0;background:linear-gradient(135deg,#2f6fe0,#1a73e8);color:#fff;padding:0 16px}
 #si .si-label button#tb-evt-add:hover,#si .si-label button#tb-evt-add:focus{filter:brightness(1.1)}
-.top-menu-panel{display:none}
 #sb-evt-add:hover,#sb-evt-add:focus{filter:brightness(1.05);transform:translateY(-1px);outline:none}
 #sb-evt-clear:hover,#sb-evt-clear:focus{background:rgba(201,160,48,.1);border-color:#fff;transform:translateY(-1px);outline:none}
 #adv-copy:hover,#adv-copy:focus{filter:brightness(1.05);transform:translateY(-1px);outline:none}
@@ -115,12 +114,11 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
   #si{top:0;left:0;right:0;justify-content:center}
   #si .si-status{border-right:none;padding-right:0;margin-right:0}
   #si .si-label{margin-left:0}
+  #si .si-nav-select{display:block}
   #sb{display:none}
+  #si .si-group{display:none}
   #si.menu-open{max-height:100vh;overflow-y:auto}
-  #si.menu-open .top-menu-panel{display:grid;grid-template-columns:1fr 1fr;gap:7px;border-top:1px solid rgba(201,160,48,.22);padding-top:10px}
-  .top-menu-panel a{display:block;text-decoration:none;color:#ddd;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px 11px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
-  .top-menu-panel a.on,.top-menu-panel a:hover,.top-menu-panel a:focus{color:#111;background:var(--gold);border-color:var(--gold);outline:none}
-  .top-menu-heading{grid-column:1/-1;color:#a4832c;font-family:Arial,sans-serif;font-size:9px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;padding:7px 2px 0}
+  #si.menu-open .si-group{display:flex}
 }
 
 /* PAGE */
@@ -593,7 +591,6 @@ input,textarea,select,button{max-width:100%;min-width:0}
     <input id="tb-evt-color" type="color" value="#1a73e8">
     <button id="tb-evt-add" type="button">Add Label</button>
   </div>
-  <div id="top-menu-panel" class="top-menu-panel" aria-label="Planner navigation"></div>
 </div>
 <button id="surprise-btn" type="button">Surprise Me</button>
 <button id="install-app-btn" type="button">Install App</button>
@@ -2172,32 +2169,24 @@ function highlightToday(){
 
 // ── NAVIGATION ───────────────────────────────────────────────
 function buildTopMenu(){
-  const panel=document.getElementById('top-menu-panel');
   const select=document.getElementById('top-nav-select');
   const sidebar=document.getElementById('sb');
-  if(!panel||!sidebar) return;
-  panel.innerHTML='';
-  if(select) select.innerHTML='<option value="">Jump to page</option>';
+  if(!select||!sidebar) return;
+  select.innerHTML='<option value="">Jump to page</option>';
+  let group=null;
   sidebar.querySelectorAll('.ng,a').forEach(item=>{
     if(item.matches('.ng')){
-      const heading=document.createElement('div');
-      heading.className='top-menu-heading';
-      heading.textContent=item.textContent;
-      panel.appendChild(heading);
+      group=document.createElement('optgroup');
+      group.label=item.textContent;
+      select.appendChild(group);
       return;
     }
-    const link=document.createElement('a');
-    link.href=item.getAttribute('href');
-    link.textContent=item.textContent;
-    panel.appendChild(link);
-    if(select){
-      const option=document.createElement('option');
-      option.value=item.getAttribute('href');
-      option.textContent=item.textContent;
-      select.appendChild(option);
-    }
+    const option=document.createElement('option');
+    option.value=item.getAttribute('href');
+    option.textContent=item.textContent;
+    (group||select).appendChild(option);
   });
-  if(select) select.addEventListener('change',()=>{
+  select.addEventListener('change',()=>{
     if(!select.value) return;
     const t=document.querySelector(select.value);
     if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
@@ -2205,7 +2194,7 @@ function buildTopMenu(){
   });
 }
 buildTopMenu();
-const links=document.querySelectorAll('#sb a,#top-menu-panel a');
+const links=document.querySelectorAll('#sb a');
 links.forEach(a=>{
   a.addEventListener('click',e=>{
     e.preventDefault();
