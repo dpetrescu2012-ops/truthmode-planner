@@ -29,9 +29,19 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
 #si .si-status{display:flex;align-items:center;gap:8px;padding-right:12px;border-right:1px solid rgba(255,255,255,.08);margin-right:2px}
 #si .text{font-weight:900;color:#f4df9b;text-transform:uppercase;font-size:10px;letter-spacing:1.4px}
 #si .saved-at{font-size:9.5px;color:#8c8c8c;white-space:nowrap}
-.si-nav-select{display:none;height:34px;background:rgba(255,255,255,.055);border:1px solid rgba(201,160,48,.34);color:#f4df9b;border-radius:999px;padding:0 34px 0 13px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:.9px;text-transform:uppercase;outline:none;max-width:220px}
-.si-nav-select:focus{border-color:#fff;box-shadow:0 0 0 3px rgba(201,160,48,.12)}
-.si-nav-select option{background:#111;color:#f4df9b}
+#menu-toggle.on{border-color:#fff;background:rgba(201,160,48,.16)}
+#main-menu-overlay{display:none;flex-direction:column;position:fixed;inset:0;background:linear-gradient(180deg,#0e0e0e 0%,#070707 100%);z-index:300;overflow-y:auto}
+#main-menu-overlay .mm-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid rgba(201,160,48,.22);position:sticky;top:0;background:#0c0c0c;z-index:1}
+#main-menu-overlay .mm-title{font-family:Arial,sans-serif;font-size:13px;letter-spacing:3px;color:#f4df9b;text-transform:uppercase;font-weight:800}
+#main-menu-overlay #mm-close{background:transparent;border:1px solid rgba(255,255,255,.18);color:#ddd;width:34px;height:34px;border-radius:50%;font-size:14px;cursor:pointer}
+#main-menu-overlay .mm-body{padding:10px 14px 40px}
+#main-menu-overlay .mm-heading{font-family:Arial,sans-serif;font-size:9px;letter-spacing:2px;color:#6b5826;text-transform:uppercase;padding:16px 8px 6px}
+#main-menu-overlay .mm-body a{display:block;padding:12px 14px;color:#ddd;text-decoration:none;font-family:Arial,sans-serif;font-size:13px;border-radius:8px}
+#main-menu-overlay .mm-body a.on,#main-menu-overlay .mm-body a:active{background:rgba(201,160,48,.14);color:#f4df9b}
+#main-menu-overlay .mm-divider{height:1px;background:rgba(201,160,48,.22);margin:18px 8px}
+#main-menu-overlay .mm-actions{display:flex;flex-direction:column;gap:10px;padding:0 8px}
+#main-menu-overlay .mm-actions button{height:44px;border-radius:999px;font-family:Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(201,160,48,.4);background:rgba(255,255,255,.04);color:#f4df9b}
+#main-menu-overlay #mm-reset{border-color:rgba(214,68,58,.4);color:#ff9a91}
 #si button{height:34px;background:rgba(255,255,255,.035);border:1px solid rgba(201,160,48,.55);color:#f4df9b;padding:0 16px;border-radius:999px;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;transition:background .2s,border-color .2s,transform .2s,box-shadow .2s;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
 #si button:hover,#si button:focus{background:rgba(201,160,48,.16);border-color:#fff;outline:none;transform:translateY(-1px);box-shadow:0 10px 22px rgba(0,0,0,.26),0 0 0 3px rgba(201,160,48,.1)}
 #si #save-btn{background:linear-gradient(135deg,#f3d98a 0%,#c9a030 50%,#9c7314 100%);color:#181208;border-color:transparent;font-weight:900;box-shadow:0 10px 26px rgba(0,0,0,.32),0 0 0 3px rgba(201,160,48,.12)}
@@ -85,11 +95,9 @@ body{font-family:Georgia,serif;background:#1a1a1a;color:#ddd;display:flex;min-he
   #si .si-status{border-right:none;padding-right:0;margin-right:0}
   #si #label-trigger{margin-left:0;width:100%;justify-content:center}
   #label-popover{left:12px;right:12px;width:auto}
-  #si .si-nav-select{display:block}
   #sb{display:none}
   #si .si-group{display:none}
-  #si.menu-open{max-height:100vh;overflow-y:auto}
-  #si.menu-open .si-group{display:flex}
+  #main-menu-overlay.active{display:flex}
 }
 
 /* PAGE */
@@ -354,7 +362,6 @@ input,textarea,select,button{max-width:100%;min-width:0}
   #sb{width:min(86vw,320px)}
   #si{display:flex;flex-direction:column;align-items:stretch;max-height:none;overflow:visible;padding:10px;gap:8px;border-radius:0}
   #si .si-status{justify-content:center;border-right:none;padding-right:0;margin-right:0}
-  #si .si-nav-select{width:100%;max-width:none}
   #si button{padding:9px 8px;font-size:9px;min-width:0}
   #si #menu-toggle{justify-content:center;padding:9px 8px;width:100%}
   #si #save-btn{width:100%;justify-content:center}
@@ -538,9 +545,6 @@ input,textarea,select,button{max-width:100%;min-width:0}
 
 <div id="si">
   <button id="menu-toggle" type="button" aria-label="Toggle navigation"><span class="mi"><span></span><span></span><span></span></span><span>Menu</span></button>
-  <select id="top-nav-select" class="si-nav-select" aria-label="Jump to planner page">
-    <option value="">Jump to page</option>
-  </select>
   <div class="si-status">
     <span class="text">✓ Saved</span>
     <span id="saved-at" class="saved-at"></span>
@@ -559,6 +563,21 @@ input,textarea,select,button{max-width:100%;min-width:0}
     <div class="lp-row">
       <input id="tb-evt-color" type="color" value="#1a73e8">
       <button id="tb-evt-add" type="button">Add Label</button>
+    </div>
+  </div>
+</div>
+<div id="main-menu-overlay">
+  <div class="mm-header">
+    <span class="mm-title">Main Menu</span>
+    <button id="mm-close" type="button" aria-label="Close menu">✕</button>
+  </div>
+  <div class="mm-body">
+    <div id="mm-nav-list"></div>
+    <div class="mm-divider"></div>
+    <div class="mm-actions">
+      <button id="mm-export" type="button">Export Backup</button>
+      <button id="mm-import" type="button">Import Backup</button>
+      <button id="mm-reset" type="button">Reset Planner</button>
     </div>
   </div>
 </div>
@@ -2091,22 +2110,26 @@ function resetPlanner(){
 
 function hideMenuOnMobile(){
   const sidebar=document.getElementById('sb');
-  const menuBar=document.getElementById('si');
+  const overlay=document.getElementById('main-menu-overlay');
   if(sidebar && sidebar.classList.contains('open')){
     sidebar.classList.remove('open');
   }
-  if(menuBar) menuBar.classList.remove('menu-open');
+  if(overlay) overlay.classList.remove('active');
   if(menuToggle) menuToggle.classList.remove('on');
 }
 
 if(saveBtn) saveBtn.addEventListener('click', saveAll);
 if(resetBtn) resetBtn.addEventListener('click',resetPlanner);
 if(menuToggle) menuToggle.addEventListener('click',()=>{
-  const menuBar=document.getElementById('si');
-  if(!menuBar) return;
-  menuBar.classList.toggle('menu-open');
+  const overlay=document.getElementById('main-menu-overlay');
+  if(!overlay) return;
+  overlay.classList.toggle('active');
   menuToggle.classList.toggle('on');
 });
+document.getElementById('mm-close')?.addEventListener('click',hideMenuOnMobile);
+document.getElementById('mm-export')?.addEventListener('click',()=>{exportData();hideMenuOnMobile();});
+document.getElementById('mm-import')?.addEventListener('click',()=>{document.getElementById('import-file').click();hideMenuOnMobile();});
+document.getElementById('mm-reset')?.addEventListener('click',()=>{resetPlanner();hideMenuOnMobile();});
 
 function saveScores(){saveAll();}
 
@@ -2165,33 +2188,27 @@ function highlightToday(){
 }
 
 // ── NAVIGATION ───────────────────────────────────────────────
-function buildTopMenu(){
-  const select=document.getElementById('top-nav-select');
+function buildMainMenu(){
+  const list=document.getElementById('mm-nav-list');
   const sidebar=document.getElementById('sb');
-  if(!select||!sidebar) return;
-  select.innerHTML='<option value="">Jump to page</option>';
-  let group=null;
+  if(!list||!sidebar) return;
+  list.innerHTML='';
   sidebar.querySelectorAll('.ng,a').forEach(item=>{
     if(item.matches('.ng')){
-      group=document.createElement('optgroup');
-      group.label=item.textContent;
-      select.appendChild(group);
+      const heading=document.createElement('div');
+      heading.className='mm-heading';
+      heading.textContent=item.textContent;
+      list.appendChild(heading);
       return;
     }
-    const option=document.createElement('option');
-    option.value=item.getAttribute('href');
-    option.textContent=item.textContent;
-    (group||select).appendChild(option);
-  });
-  select.addEventListener('change',()=>{
-    if(!select.value) return;
-    const t=document.querySelector(select.value);
-    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
-    hideMenuOnMobile();
+    const link=document.createElement('a');
+    link.href=item.getAttribute('href');
+    link.textContent=item.textContent;
+    list.appendChild(link);
   });
 }
-buildTopMenu();
-const links=document.querySelectorAll('#sb a');
+buildMainMenu();
+const links=document.querySelectorAll('#sb a,#mm-nav-list a');
 links.forEach(a=>{
   a.addEventListener('click',e=>{
     e.preventDefault();
@@ -2205,8 +2222,6 @@ function updateNav(){
   let cur='';
   document.querySelectorAll('.pg[id]').forEach(s=>{if(s.offsetTop<=y)cur=s.id;});
   links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
-  const select=document.getElementById('top-nav-select');
-  if(select && cur) select.value='#'+cur;
 }
 window.addEventListener('scroll',updateNav,{passive:true});
 
